@@ -7,3 +7,6 @@
 
 # .tfvars files
 *.tfvars
+
+# Connection file. It has credentials
+connections.tf

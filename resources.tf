@@ -1,0 +1,55 @@
+resource "aws_vpc" "env_example" {
+  cidr_block = "10.0.0.0/16"
+  enable_dns_support = true
+  enable_dns_hostnames = true
+  tags = {
+    Name = "vpc_terraform"
+  }
+}
+
+resource "aws_subnet" "subnet1" {
+  cidr_block = "${cidrsubnet(aws_vpc.env_example.cidr_block, 3, 1)}"
+  vpc_id = "${aws_vpc.env_example.id}"
+  availability_zone = "us-east-2a"
+   tags = {
+      Name = "subnet_terraform_1"
+  }
+}
+
+resource "aws_subnet" "subnet2" {
+  cidr_block = "${cidrsubnet(aws_vpc.env_example.cidr_block, 3, 2)}"
+  vpc_id = "${aws_vpc.env_example.id}"
+  availability_zone = "us-east-2b"
+  tags = {
+      Name = "subnet_terraform_2"
+  }
+}
+
+
+resource "aws_subnet" "subnet3" {
+  cidr_block = "${cidrsubnet(aws_vpc.env_example.cidr_block, 3, 4)}"
+  vpc_id = "${aws_vpc.env_example.id}"
+  availability_zone = "us-east-2c"
+  tags = {
+      Name = "subnet_terraform_3"
+  }
+}
+
+
+resource "aws_security_group" "SG_terraform" {
+  vpc_id = "${aws_vpc.env_example.id}"
+
+  ingress {
+    cidr_blocks = [
+        "${aws_vpc.env_example.cidr_block}"
+    ]
+
+    from_port = 80
+    to_port = 80
+    protocol = "tcp"
+  }
+  tags = {
+      Name = "SG_terraform"
+  }
+
+}

@@ -1,5 +1,5 @@
 resource "aws_vpc" "env_example" {
-  cidr_block = "10.0.0.0/16"
+  cidr_block = "${var.aws_ip_cidr_range}"
   enable_dns_support = true
   enable_dns_hostnames = true
   tags = {
@@ -12,7 +12,7 @@ resource "aws_subnet" "subnet1" {
   vpc_id = "${aws_vpc.env_example.id}"
   availability_zone = "us-east-2a"
    tags = {
-      Name = "subnet_terraform_1"
+      Name = "${var.subnets["subnet1"]}"
   }
 }
 
@@ -21,7 +21,7 @@ resource "aws_subnet" "subnet2" {
   vpc_id = "${aws_vpc.env_example.id}"
   availability_zone = "us-east-2b"
   tags = {
-      Name = "subnet_terraform_2"
+      Name = "${var.subnets["subnet2"]}"
   }
 }
 
